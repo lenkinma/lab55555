@@ -5,6 +5,7 @@ import maxim.lab5.model.fitness.FitnessMode;
 import maxim.lab5.model.parent.Device;
 import maxim.lab5.model.parent.UserProfile;
 import maxim.lab5.model.pressure.PressureMonitor;
+import maxim.lab5.storage.DeviceStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,20 +20,35 @@ public class InReader {
     private InReader() {}
 
     private static final Scanner scanner = new Scanner(System.in);
+    private static final DeviceStorage deviceStorage = StorageFactory.getSingleton();
 
     public static FitnessBracelet readFitnessBracelet() {
-        FitnessBracelet fitnessBracelet = (FitnessBracelet) readCommonFields();
+        FitnessBracelet fitnessBracelet = new FitnessBracelet();
+        readCommonFields(fitnessBracelet);
         fitnessBracelet.setSteps(readSteps());
         fitnessBracelet.setMode(readFitnessMode());
         return fitnessBracelet;
     }
 
     public static PressureMonitor readPressureMonitor() {
-        return (PressureMonitor) readCommonFields();
+        PressureMonitor pressureMonitor = new PressureMonitor();
+        readCommonFields(pressureMonitor);
+        return pressureMonitor;
     }
 
     public static String readSerialNumber() {
         return scanner.nextLine().trim();
+    }
+
+    public static String readSerialNumberUnique() {
+        System.out.print("Введите серийный номер устройства: ");
+        String serialNumber = scanner.nextLine().trim();
+        while (deviceStorage.getDeviceBySerialNumber(serialNumber) != null) {
+            System.out.println("Устройство с таким серийным номером уже есть. Номер должен быть уникальным.");
+            System.out.print("Введите серийный номер устройства: ");
+            serialNumber = scanner.nextLine().trim();
+        }
+        return serialNumber;
     }
 
     public static Long readSteps() {
@@ -97,30 +113,49 @@ public class InReader {
                 Integer pulseValue = Integer.parseInt(input);
                 pulse.add(pulseValue);
             } else {
-                System.out.println("Некорректный ввод. Пожалуйста, введите целое число большее нуля.");
+                System.out.println("Некорректный ввод. Пожалуйста, введите хотя бы одно целое число большее нуля.");
             }
             input = scanner.nextLine();
         }
         return pulse;
     }
 
-    private static Device readCommonFields() {
-        FitnessBracelet fitnessBracelet = new FitnessBracelet();
+    public static Integer readSystolicPressure() {
+        System.out.print("Введите систолическое давление: ");
+        String systolicPressure = scanner.nextLine();
+        while (!ValidateInput.validInt(systolicPressure) || Integer.parseInt(systolicPressure) <= 0) {
+            System.out.println("Некорректный ввод. Давление - целое число большее нуля. Попробуйте еще раз.");
+            System.out.print("Введите систолическое давление: ");
+            systolicPressure = scanner.nextLine();
+        }
+        return Integer.parseInt(systolicPressure);
+    }
+
+    public static Integer readDiastolicPressure() {
+        System.out.print("Введите диастолическое давление: ");
+        String diastolicPressure = scanner.nextLine();
+        while (!ValidateInput.validInt(diastolicPressure) || Integer.parseInt(diastolicPressure) <= 0) {
+            System.out.println("Некорректный ввод. Давление - целое число большее нуля. Попробуйте еще раз.");
+            System.out.print("Введите диастолическое давление: ");
+            diastolicPressure = scanner.nextLine();
+        }
+        return Integer.parseInt(diastolicPressure);
+    }
+
+    private static void readCommonFields(Device device) {
         System.out.print("Введите имя устройства: ");
-        fitnessBracelet.setName(scanner.nextLine());
+        device.setName(scanner.nextLine());
         System.out.print("Введите уровень заряда: ");
         String batteryLevel = scanner.nextLine();
-        while (!ValidateInput.validInt(batteryLevel)
-                || Integer.parseInt(batteryLevel) <= 0 || Integer.parseInt(batteryLevel) >= 100) {
+        while (!ValidateInput.validInt(batteryLevel) || Integer.parseInt(batteryLevel) <= 0 || Integer.parseInt(batteryLevel) >= 100) {
             System.out.println("Некорректный ввод. Уровень заряда - целое число от 0 до 100. Попробуйте еще раз.");
             System.out.print("Введите уровень заряда: ");
             batteryLevel = scanner.nextLine();
         }
-        fitnessBracelet.setBatteryLevel(Integer.valueOf(batteryLevel));
-        System.out.print("Введите серийный номер устройства: ");
-        fitnessBracelet.setSerialNumber(scanner.nextLine());
-        fitnessBracelet.setProfile(readProfile());
-        fitnessBracelet.setPulse(readPulse());
-        return fitnessBracelet;
+        device.setBatteryLevel(Integer.valueOf(batteryLevel));
+        device.setSerialNumber(readSerialNumberUnique());
+        device.setProfile(readProfile());
+        device.setPulse(readPulse());
     }
+
 }

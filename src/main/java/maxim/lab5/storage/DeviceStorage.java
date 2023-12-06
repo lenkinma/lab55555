@@ -50,33 +50,23 @@ public class DeviceStorage {
     // обновление устройства по серийному номеру
     public void updateBySerialNumber(String serialNumber) {
         Device deviceToUpdate = findDeviceBySerialNumber(serialNumber);
-
         if (deviceToUpdate != null) {
-            if (deviceToUpdate instanceof FitnessBracelet) {
-                updateFitnessBracelet((FitnessBracelet) deviceToUpdate);
-            } else if (deviceToUpdate instanceof PressureMonitor) {
-                updatePressureMonitor((PressureMonitor) deviceToUpdate);
-            }
-
+            update(deviceToUpdate);
         } else {
             System.out.println("Устройства с таким id нет");
         }
     }
 
-    private void updatePressureMonitor(PressureMonitor deviceToUpdate) {
-
-    }
-
-    // обновление полей фитнесс браслета
+    // обновление полей
     // логичным показлось не делать возможным обновление всех полей устройства
-    // пример: количество шагов задается путем "взаимодействия" с устройством (там их можно добавить или
-    // сбросить инфомарцию о пройденных шагах)
-    private void updateFitnessBracelet(FitnessBracelet deviceToUpdate) {
+    // пример: количество шагов задается путем "взаимодействия" с устройством, а конкретно с фитнесс браслетом
+    // пример 2: давление, опять же, можно обновить взаимодействую с тонометром
+    private void update(Device deviceToUpdate) {
         System.out.println(UPDATE_FITNESS);
         String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
         switch (command) {
             case "name" -> {
-                System.out.print("Введите новое имя: ");
+                System.out.print("Введите новое имя устройства: ");
                 deviceToUpdate.setName(scanner.nextLine());
             }
             case "serial" -> {

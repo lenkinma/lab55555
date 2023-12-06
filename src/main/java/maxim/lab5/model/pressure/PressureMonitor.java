@@ -24,27 +24,34 @@ public class PressureMonitor extends Device {
         this.lastDiastolicPressure = diastolicPressure;
         this.lastMeasurementTime = LocalDateTime.now();
         pressureData.add(systolicPressure + "/" + diastolicPressure + " " + lastMeasurementTime.format(formatter));
+        System.out.println("Данные о новом измерении давления добавлены.");
     }
 
     public void resetMeasures() {
         this.pressureData.clear();
         this.pulse.clear();
+        lastMeasurementTime = null;
+        lastDiastolicPressure = null;
+        lastSystolicPressure = null;
+        System.out.println("Данные о пульсе и давлении сброшены.");
     }
 
     public void switchMode() {
         isAutomaticMeasurementMode = !isAutomaticMeasurementMode;
+        System.out.println("Изменен режим работы браслета на " +
+                (isAutomaticMeasurementMode ? "автоматический." : "ручной."));
     }
 
     public void checkIfCurrentPressureIsHighAndDisplay() {
         if (lastSystolicPressure == null || lastDiastolicPressure == null) {
             System.out.println("Данных о давлении нет.");
-        } else if (lastSystolicPressure > 130 && lastDiastolicPressure < 80) {
+        } else if (lastSystolicPressure > 125 && lastDiastolicPressure < 90) {
             System.out.println("У вас высокое систолическое давление: " + lastSystolicPressure + "/" +
                     lastDiastolicPressure + " Время измерения: " + lastMeasurementTime.format(formatter));
-        } else if (lastSystolicPressure < 120 && lastDiastolicPressure > 95) {
+        } else if (lastSystolicPressure < 125 && lastDiastolicPressure > 90) {
             System.out.println("У вас высокое диастолическое давление: " + lastSystolicPressure + "/" +
                     lastDiastolicPressure + " Время измерения: " + lastMeasurementTime.format(formatter));
-        } else if (lastSystolicPressure > 130 && lastDiastolicPressure > 95) {
+        } else if (lastSystolicPressure > 125 && lastDiastolicPressure > 90) {
             System.out.println("У вас высокое давление: " + lastSystolicPressure + "/" +
                     lastDiastolicPressure + " Время измерения: " + lastMeasurementTime.format(formatter));
         } else {
@@ -101,7 +108,7 @@ public class PressureMonitor extends Device {
         return "PressureMonitor{" +
                 "lastSystolicPressure=" + lastSystolicPressure +
                 ", lastDiastolicPressure=" + lastDiastolicPressure +
-                ", lastMeasurementTime=" + lastMeasurementTime.format(formatter) +
+                ", lastMeasurementTime=" + (lastMeasurementTime != null ? lastMeasurementTime.format(formatter) : "Нет данных")  +
                 ", pressureData=" + pressureData +
                 ", isAutomaticMeasurementMode=" + (isAutomaticMeasurementMode ? "Автоматический" : "Ручной") +
                 ", name='" + name + '\'' +

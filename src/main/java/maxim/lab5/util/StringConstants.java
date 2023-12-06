@@ -13,7 +13,6 @@ public class StringConstants {
             fitness - Фитнесс-браслет
             tono - Тонометр
             watch - Часы
-            exit - выход
             """;
 
     public static final String MENU = """
@@ -35,7 +34,6 @@ public class StringConstants {
             name - обновить имя устройства
             user - обновить профиль пользователя
             serial - обновить серийный номер
-            exit - выход
             """;
 
     public static final String PROCESS_FITNESS = """
@@ -51,7 +49,21 @@ public class StringConstants {
             addsteps - добавить шаги
             addpulse - добавить данные о пульсе
             show - вывести полную информацию об устройстве
-            exit - выход
+            """;
+
+    public static final String PROCESS_MONITOR = """
+            
+            Выберите действие:
+            battery - изменить заряд устройства (отрицательное число - убавить заряд, положительное - прибавить)
+            on - надеть устройство
+            off - снять устройство
+            reset - сбросить данные о пульсе и давлении
+            report - получить отчет с тонометра
+            mode - изенить режим работы на автоматический/ручной
+            addpulse - добавить данные о пульсе
+            measure - добавить данные о новом измерении давления
+            check - проверить, что последнее измеренное давление не высокое
+            show - вывести полную информацию об устройстве
             """;
 
 }
