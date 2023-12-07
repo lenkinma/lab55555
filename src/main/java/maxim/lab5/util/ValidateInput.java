@@ -1,7 +1,13 @@
 package maxim.lab5.util;
 
+import maxim.lab5.Main;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 // класс для валидации ввода с клавиатуры (проверки на инт, флоат и т.д)
 public class ValidateInput {
+
+    private static final Logger log = LoggerFactory.getLogger(ValidateInput.class);
 
     // приватный конструктор для запрета создания экземлпяров класса
     private ValidateInput() {}
@@ -11,6 +17,7 @@ public class ValidateInput {
             Integer.parseInt(aInt);
             return true;
         } catch (NumberFormatException e) {
+            log.error("Некорректный ввод. Ожидалось целое число, получено {}", aInt);
             return false;
         }
     }
@@ -20,6 +27,7 @@ public class ValidateInput {
             Float.parseFloat(aFloat);
             return true;
         } catch (NumberFormatException e) {
+            log.error("Некорректный ввод. Ожидалось вещественное число, получено {}", aFloat);
             return false;
         }
     }
@@ -29,6 +37,7 @@ public class ValidateInput {
             Long.parseLong(aLong);
             return true;
         } catch (NumberFormatException e) {
+            log.error("Некорректный ввод. Ожидалось целое число, получено {}", aLong);
             return false;
         }
     }

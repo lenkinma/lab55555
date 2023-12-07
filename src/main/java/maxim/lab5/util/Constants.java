@@ -1,11 +1,15 @@
 package maxim.lab5.util;
 
 
-// строковые константы вынесены в этот класс для удобства и повышения читаемости в других классах
-public class StringConstants {
+import java.time.format.DateTimeFormatter;
+
+// строковые и другие константы вынесены в этот класс для удобства и повышения читаемости в других классах
+public class Constants {
 
     // приватный конструктор для запрета создания экземлпяров класса
-    private StringConstants() {}
+    private Constants() {}
+
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     public static final String DEVICE_TYPE = """
             
@@ -63,6 +67,23 @@ public class StringConstants {
             addpulse - добавить данные о пульсе
             measure - добавить данные о новом измерении давления
             check - проверить, что последнее измеренное давление не высокое
+            show - вывести полную информацию об устройстве
+            """;
+
+    public static final String PROCESS_WATCH = """
+            
+            Выберите действие:
+            battery - изменить заряд устройства (отрицательное число - убавить заряд, положительное - прибавить)
+            on - надеть устройство
+            off - снять устройство
+            reset - сбросить данные о пульсе и вернуть время на системное
+            report - получить отчет с часов
+            addpulse - добавить данные о пульсе
+            start - запустить таймер
+            stop - остановить таймер
+            time - получить текущее время с учетом временной зоны
+            tz - изменить временную зону
+            systz - установить временную зону по умолчанию
             show - вывести полную информацию об устройстве
             """;
 

@@ -3,7 +3,7 @@ package maxim.lab5.util;
 import maxim.lab5.storage.DeviceStorage;
 
 // класс-фабрика нужен для предотвращения создания нескольких экземлпяров хранилища
-// пример, в котором создания двух разных объектов (соответственно и двух разных списков устройств не работает):
+// пример, в котором при создании двух разных объектов (соответственно и двух разных списков устройств не работает):
 // 1. Main инициализируется новый объектом DeviceStorage, создается объект устройства, назначается серийный номер
 // 2. Попробуем создать устройство с таким же серийным номером. Из-за того, что класс InReader содержит другой объект, а следиовательно
 // и другой список устройств (который сейчас пуст) у нас получается ситуация, что программа позволяет создать устройство с таким
@@ -11,13 +11,16 @@ import maxim.lab5.storage.DeviceStorage;
 // будь то удаление, обновление или получение происходят именно по СЕРИЙНОМУ НОМЕРУ
 public class StorageFactory {
 
-    private static DeviceStorage deviceStorage = null;
+    // приватный конструктор для запрета создания экземлпяров класса
+    private StorageFactory() {}
+
+    private static DeviceStorage aInstance = null;
 
     public static DeviceStorage getSingleton() {
-        if (deviceStorage == null) {
-            deviceStorage = new DeviceStorage();
+        if (aInstance == null) {
+            aInstance = new DeviceStorage();
         }
-        return deviceStorage;
+        return aInstance;
     }
 
 }

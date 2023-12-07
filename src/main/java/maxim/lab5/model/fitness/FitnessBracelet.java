@@ -1,10 +1,7 @@
 package maxim.lab5.model.fitness;
 
 import maxim.lab5.model.parent.Device;
-import maxim.lab5.model.parent.UserProfile;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.OptionalDouble;
 
 
@@ -13,12 +10,6 @@ public class FitnessBracelet extends Device {
     private FitnessMode mode;
     private Double kcal = 0.0; // по дефолту 0 шагов, соответственно и 0 калорий
     private Long steps = 0L;
-
-    public FitnessBracelet(String name, Integer batteryLevel, String serialNumber,
-                           UserProfile profiles, List<Integer> pulse, FitnessMode mode) {
-        super(name, batteryLevel, serialNumber, profiles, pulse);
-        this.mode = mode;
-    }
 
     public FitnessBracelet() {
         super();

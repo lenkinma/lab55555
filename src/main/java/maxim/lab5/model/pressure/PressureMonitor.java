@@ -1,13 +1,14 @@
 package maxim.lab5.model.pressure;
 
 import maxim.lab5.model.parent.Device;
-import maxim.lab5.util.InReader;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
+
+import static maxim.lab5.util.Constants.formatter;
 
 
 public class PressureMonitor extends Device {
@@ -17,8 +18,8 @@ public class PressureMonitor extends Device {
     private LocalDateTime lastMeasurementTime;
     private List<String> pressureData = new ArrayList<>();
     private boolean isAutomaticMeasurementMode = false; // по умолчанию "автоматический" режим измерения выключен
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
+    // добавление нового измерения давления
     public void newMeasure(Integer systolicPressure, Integer diastolicPressure) {
         this.lastSystolicPressure = systolicPressure;
         this.lastDiastolicPressure = diastolicPressure;
@@ -27,6 +28,7 @@ public class PressureMonitor extends Device {
         System.out.println("Данные о новом измерении давления добавлены.");
     }
 
+    // сброс данных о давлении, пульсе и последних измерениях
     public void resetMeasures() {
         this.pressureData.clear();
         this.pulse.clear();
@@ -36,19 +38,21 @@ public class PressureMonitor extends Device {
         System.out.println("Данные о пульсе и давлении сброшены.");
     }
 
+    // смена режима
     public void switchMode() {
         isAutomaticMeasurementMode = !isAutomaticMeasurementMode;
         System.out.println("Изменен режим работы браслета на " +
                 (isAutomaticMeasurementMode ? "автоматический." : "ручной."));
     }
 
+    // проверка на то, не высокое ли давление у пользователя
     public void checkIfCurrentPressureIsHighAndDisplay() {
         if (lastSystolicPressure == null || lastDiastolicPressure == null) {
             System.out.println("Данных о давлении нет.");
-        } else if (lastSystolicPressure > 125 && lastDiastolicPressure < 90) {
+        } else if (lastSystolicPressure > 125 && lastDiastolicPressure <= 90) {
             System.out.println("У вас высокое систолическое давление: " + lastSystolicPressure + "/" +
                     lastDiastolicPressure + " Время измерения: " + lastMeasurementTime.format(formatter));
-        } else if (lastSystolicPressure < 125 && lastDiastolicPressure > 90) {
+        } else if (lastSystolicPressure <= 125 && lastDiastolicPressure > 90) {
             System.out.println("У вас высокое диастолическое давление: " + lastSystolicPressure + "/" +
                     lastDiastolicPressure + " Время измерения: " + lastMeasurementTime.format(formatter));
         } else if (lastSystolicPressure > 125 && lastDiastolicPressure > 90) {
@@ -60,6 +64,7 @@ public class PressureMonitor extends Device {
         }
     }
 
+    // получение отчета
     @Override
     public void getReport() {
         StringBuilder sb = new StringBuilder();

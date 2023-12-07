@@ -1,16 +1,16 @@
 package maxim.lab5.storage;
 
-import maxim.lab5.model.fitness.FitnessBracelet;
 import maxim.lab5.model.parent.Device;
-import maxim.lab5.model.pressure.PressureMonitor;
 import maxim.lab5.util.InReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-import static maxim.lab5.util.StringConstants.UPDATE_FITNESS;
+import static maxim.lab5.util.Constants.UPDATE_FITNESS;
 
 
 // класс-хранилище списка устройств
@@ -18,6 +18,7 @@ public class DeviceStorage {
 
     private final List<Device> devices = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
+    private static final Logger log = LoggerFactory.getLogger(DeviceStorage.class);
 
     public void add(Device device) {
         devices.add(device);
@@ -25,6 +26,8 @@ public class DeviceStorage {
 
     // краткое отображение информации о всех устройствах
     public void displayDevices() {
+        log.info("Пользователь просмотрел список устройств");
+
         if (devices.isEmpty()) {
             System.out.println("Устройств нет.");
         }
@@ -41,9 +44,11 @@ public class DeviceStorage {
 
         if (deviceToRemove != null) {
             devices.remove(deviceToRemove);
+            log.info("Пользователь удалил устройство: {}", serialNumber);
             System.out.println("Устройство успешно удалено");
         } else {
-            System.out.println("Устройства с таким id нет");
+            log.warn("Попытка удалить устройство с несуществующим серийным номером: {}", serialNumber);
+            System.out.println("Устройства с таким серийным номером нет");
         }
     }
 
@@ -61,6 +66,7 @@ public class DeviceStorage {
     // логичным показлось не делать возможным обновление всех полей устройства
     // пример: количество шагов задается путем "взаимодействия" с устройством, а конкретно с фитнесс браслетом
     // пример 2: давление, опять же, можно обновить взаимодействую с тонометром
+    // пример 3: смена временной зоны в часах, опять же, производиться путем взаимодействия с ними, а не обновлением
     private void update(Device deviceToUpdate) {
         System.out.println(UPDATE_FITNESS);
         String command = scanner.nextLine().toLowerCase(Locale.ROOT).trim();
@@ -68,16 +74,27 @@ public class DeviceStorage {
             case "name" -> {
                 System.out.print("Введите новое имя устройства: ");
                 deviceToUpdate.setName(scanner.nextLine());
+                System.out.println("Имя устройства обновлено.");
+                log.info("Пользователь обновил имя устройства с серийным номером: {}", deviceToUpdate.getSerialNumber());
             }
             case "serial" -> {
                 System.out.print("Введите новый серийный номер: ");
                 deviceToUpdate.setSerialNumber(scanner.nextLine());
+                System.out.println("Серийный номер устройства обновлен.");
+                log.info("Пользователь обновил серийный номер устройства: {}", deviceToUpdate.getSerialNumber());
+
             }
             case "user" -> {
                 System.out.println("Введите новые данные пользователя: ");
                 deviceToUpdate.setProfile(InReader.readProfile());
+                System.out.println("Данные пользователя обновлены.");
+                log.info("Пользователь обновил данные о пользователе на устройстве с серийным номером: {}", deviceToUpdate.getSerialNumber());
+
             }
-            default -> System.out.println("Такого параметра нет.");
+            default -> {
+                System.out.println("Такого параметра нет.");
+                log.warn("Попытка обновить несуществующий параметр: {}", command);
+            }
         }
     }
 

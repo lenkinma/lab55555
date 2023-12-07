@@ -1,8 +1,5 @@
 package maxim.lab5.model.parent;
 
-/**
- * @author Kirill Emelyanov
- */
 
 public class UserProfile {
 
