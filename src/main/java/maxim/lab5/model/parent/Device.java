@@ -1,5 +1,6 @@
 package maxim.lab5.model.parent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -11,7 +12,7 @@ public abstract class Device {
     protected String serialNumber;
     protected Boolean isPutOn = false; // по умолчанию снято
     protected UserProfile profile;
-    protected List<Integer> pulse;
+    protected List<Integer> pulse = new ArrayList<>();
 
 
     // общая реализация для всех наследников
@@ -46,17 +47,7 @@ public abstract class Device {
     // метод стоит объявить абстрактным
     public abstract void getReport();
 
-
-    public Device(String name, Integer batteryLevel, String serialNumber, UserProfile profile, List<Integer> pulse) {
-        this.name = name;
-        this.batteryLevel = batteryLevel;
-        this.serialNumber = serialNumber;
-        this.profile = profile;
-        this.pulse = pulse;
-    }
-
-    public Device() {
-    }
+    // геттеры и сеттеры, преимущественно используются только при тестировании
 
     public String getName() {
         return name;

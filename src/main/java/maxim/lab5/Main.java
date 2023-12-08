@@ -37,6 +37,8 @@ public class Main {
                 case "update" -> updateDevice();
                 case "process" -> processDevice();
                 case "display" -> storage.displayDevices();
+                case "save" -> storage.saveJSON();
+                case "load" -> storage.loadJSON();
                 default -> {
                     log.warn("Попытка ввода несуществующей команды: {}", command);
                     System.out.println("Такой команды нет");
@@ -179,7 +181,7 @@ public class Main {
                 log.info("Пользователь остановил таймер на часах: {}", watch.getSerialNumber());
             }
             case "time" -> {
-                watch.getCurrentTime();
+                watch.showCurrentTimeWithOffset();
                 log.info("Пользователь просмотрел текущее время на часах: {}", watch.getSerialNumber());
             }
             case "systz" -> {
@@ -281,6 +283,7 @@ public class Main {
         switch (command) {
             case "fitness" -> {
                 FitnessBracelet fitnessBracelet = InReader.readFitnessBracelet();
+                fitnessBracelet.recalculateBurnedKcal();
                 storage.add(fitnessBracelet);
                 System.out.println("Фитнесс браслет добавлен.");
                 log.info("Добавлен новый фитнесс браслет: {}", fitnessBracelet.getSerialNumber());

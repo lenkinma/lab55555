@@ -1,6 +1,7 @@
 package maxim.lab5.model.watch;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import maxim.lab5.model.parent.Device;
 
 import java.time.Duration;
@@ -12,6 +13,7 @@ import java.util.Locale;
 import java.util.OptionalDouble;
 
 import static maxim.lab5.util.Constants.formatter;
+import static maxim.lab5.util.Constants.formatterAsString;
 
 public class Watch extends Device {
 
@@ -20,7 +22,7 @@ public class Watch extends Device {
     private ZonedDateTime currentTime = ZonedDateTime.now();
 
     // получить текущее время с заданным часовым поясом
-    public void getCurrentTime() {
+    public void showCurrentTimeWithOffset() {
         currentTime = ZonedDateTime.now().withZoneSameInstant(zoneId);
         System.out.println("Текущее время: " + currentTime.format(formatter) + " ("
                 + zoneId.getDisplayName(TextStyle.NARROW, Locale.ROOT) + ")");
@@ -49,8 +51,13 @@ public class Watch extends Device {
 
     // старт таймер
     public void startTimer() {
-        timer = LocalDateTime.now();
-        System.out.println("Таймер запущен.");
+        if (timer == null) {
+            timer = LocalDateTime.now();
+            System.out.println("Таймер запущен.");
+        } else {
+            System.out.println("Таймер уже запущен.");
+        }
+
     }
 
     // стоп таймер
@@ -93,13 +100,38 @@ public class Watch extends Device {
         System.out.println(sb);
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = formatterAsString)
+    public LocalDateTime getTimer() {
+        return timer;
+    }
+
+    public void setTimer(LocalDateTime timer) {
+        this.timer = timer;
+    }
+
+    public ZoneId getZoneId() {
+        return zoneId;
+    }
+
+    public void setZoneId(ZoneId zoneId) {
+        this.zoneId = zoneId;
+    }
+
+    public void setCurrentTime(ZonedDateTime currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = formatterAsString)
+    public ZonedDateTime getCurrentTime() {
+        return currentTime.withZoneSameInstant(zoneId);
+    }
+
     @Override
     public String toString() {
         return "Watch{" +
-                "timer=" + timer +
+                "timer=" + (timer != null ? timer.format(formatter) : "Нет данных") +
                 ", zoneId=" + zoneId +
-                ", currentTime=" + currentTime +
-                ", formatter=" + formatter +
+                ", currentTime=" + (currentTime != null ? currentTime.format(formatter) : "Нет данных") +
                 ", name='" + name + '\'' +
                 ", batteryLevel=" + batteryLevel +
                 ", serialNumber='" + serialNumber + '\'' +

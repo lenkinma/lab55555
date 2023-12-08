@@ -1,16 +1,26 @@
 package maxim.lab5.storage;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import maxim.lab5.model.parent.Device;
 import maxim.lab5.util.InReader;
+import maxim.lab5.util.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
 import static maxim.lab5.util.Constants.UPDATE_FITNESS;
+import static maxim.lab5.util.Constants.formatter;
 
 
 // класс-хранилище списка устройств
@@ -60,6 +70,15 @@ public class DeviceStorage {
         } else {
             System.out.println("Устройства с таким id нет");
         }
+    }
+
+    public void saveJSON() {
+        JsonHelper.saveJSON(devices);
+    }
+
+
+    public void loadJSON() {
+
     }
 
     // обновление полей
@@ -112,5 +131,4 @@ public class DeviceStorage {
         }
         return null;
     }
-
 }

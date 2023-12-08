@@ -1,6 +1,5 @@
 package maxim.lab5.util;
 
-import maxim.lab5.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

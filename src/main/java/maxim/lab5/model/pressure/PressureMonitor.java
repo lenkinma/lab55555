@@ -1,14 +1,15 @@
 package maxim.lab5.model.pressure;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import maxim.lab5.model.parent.Device;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
 
 import static maxim.lab5.util.Constants.formatter;
+import static maxim.lab5.util.Constants.formatterAsString;
 
 
 public class PressureMonitor extends Device {
@@ -106,6 +107,29 @@ public class PressureMonitor extends Device {
         }
 
         System.out.println(sb);
+    }
+
+    // геттеры и сеттеры, преимущественно используются только при тестировании
+
+    public Integer getLastSystolicPressure() {
+        return lastSystolicPressure;
+    }
+
+    public Integer getLastDiastolicPressure() {
+        return lastDiastolicPressure;
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = formatterAsString)
+    public LocalDateTime getLastMeasurementTime() {
+        return lastMeasurementTime;
+    }
+
+    public List<String> getPressureData() {
+        return pressureData;
+    }
+
+    public boolean isAutomaticMeasurementMode() {
+        return isAutomaticMeasurementMode;
     }
 
     @Override

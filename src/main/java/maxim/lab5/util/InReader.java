@@ -179,7 +179,7 @@ public class InReader {
         device.setName(scanner.nextLine());
         System.out.print("Введите уровень заряда: ");
         String batteryLevel = scanner.nextLine();
-        while (!ValidateInput.validInt(batteryLevel) || Integer.parseInt(batteryLevel) <= 0 || Integer.parseInt(batteryLevel) >= 100) {
+        while (!ValidateInput.validInt(batteryLevel) || Integer.parseInt(batteryLevel) < 0 || Integer.parseInt(batteryLevel) > 100) {
             System.out.println("Некорректный ввод. Уровень заряда - целое число от 0 до 100. Попробуйте еще раз.");
             System.out.print("Введите уровень заряда: ");
             log.warn("Попытка установить некорректное значение заряда аккумулятора: {}", batteryLevel);

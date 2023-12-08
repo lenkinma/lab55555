@@ -9,7 +9,9 @@ public class Constants {
     // приватный конструктор для запрета создания экземлпяров класса
     private Constants() {}
 
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    public static final String formatterAsString = "dd-MM-yyyy HH:mm";
+
+    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatterAsString);
 
     public static final String DEVICE_TYPE = """
             

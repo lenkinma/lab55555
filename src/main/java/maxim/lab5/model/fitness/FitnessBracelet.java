@@ -72,12 +72,30 @@ public class FitnessBracelet extends Device {
         System.out.println(sb);
     }
 
+    // геттеры и сеттеры, преимущественно используются только при тестировании
+
     public void setMode(FitnessMode mode) {
         this.mode = mode;
     }
 
     public void setSteps(Long steps) {
         this.steps = steps;
+    }
+
+    public FitnessMode getMode() {
+        return mode;
+    }
+
+    public Double getKcal() {
+        return kcal;
+    }
+
+    public void setKcal(Double kcal) {
+        this.kcal = kcal;
+    }
+
+    public Long getSteps() {
+        return steps;
     }
 
     @Override
