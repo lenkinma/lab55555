@@ -12,7 +12,8 @@ import maxim.lab5.storage.DeviceStorage;
 public class StorageFactory {
 
     // приватный конструктор для запрета создания экземлпяров класса
-    private StorageFactory() {}
+    private StorageFactory() {
+    }
 
     private static DeviceStorage aInstance = null;
 

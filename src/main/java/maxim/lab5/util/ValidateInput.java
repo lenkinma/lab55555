@@ -9,7 +9,8 @@ public class ValidateInput {
     private static final Logger log = LoggerFactory.getLogger(ValidateInput.class);
 
     // приватный конструктор для запрета создания экземлпяров класса
-    private ValidateInput() {}
+    private ValidateInput() {
+    }
 
     public static boolean validInt(String aInt) {
         try {

@@ -1,26 +1,17 @@
 package maxim.lab5.storage;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import maxim.lab5.model.parent.Device;
 import maxim.lab5.util.InReader;
 import maxim.lab5.util.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
 import static maxim.lab5.util.Constants.UPDATE_FITNESS;
-import static maxim.lab5.util.Constants.formatter;
 
 
 // класс-хранилище списка устройств
@@ -44,7 +35,7 @@ public class DeviceStorage {
 
         for (Device device : devices) {
             System.out.println(device.getName() + "(" + device.getClass().getSimpleName() + ") - серийный номер " +
-                    device.getSerialNumber() + " - пользователь: " + device.getProfile().getName()) ;
+                    device.getSerialNumber() + " - пользователь: " + device.getProfile().getName());
         }
     }
 
@@ -72,13 +63,27 @@ public class DeviceStorage {
         }
     }
 
+    //сохранение json
     public void saveJSON() {
         JsonHelper.saveJSON(devices);
     }
 
-
+    //считывание json
     public void loadJSON() {
+        List<Device> jsonDevices = JsonHelper.readJSON();
+        for (Device device : jsonDevices) {
+            if (isContains(device.getSerialNumber())) {
+                System.out.println("В текущем списке уже есть устройство с серийным номером " + device.getSerialNumber() + ". Пропуск...");
+                log.warn("Дубликат серийного номера: {}. Пропуск...", device.getSerialNumber());
+            } else {
+                devices.add(device);
+            }
+        }
+    }
 
+    private boolean isContains(String serial) {
+        return devices.stream()
+                .anyMatch(device -> serial.equals(device.getSerialNumber()));
     }
 
     // обновление полей

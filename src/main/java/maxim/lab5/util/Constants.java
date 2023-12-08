@@ -7,14 +7,15 @@ import java.time.format.DateTimeFormatter;
 public class Constants {
 
     // приватный конструктор для запрета создания экземлпяров класса
-    private Constants() {}
+    private Constants() {
+    }
 
     public static final String formatterAsString = "dd-MM-yyyy HH:mm";
 
     public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formatterAsString);
 
     public static final String DEVICE_TYPE = """
-            
+                        
             Выберите тип устройства для добавления:
             fitness - Фитнесс-браслет
             tono - Тонометр
@@ -22,7 +23,7 @@ public class Constants {
             """;
 
     public static final String MENU = """
-            
+                        
             Меню:
             add - Добавление
             delete - Удаление
@@ -35,7 +36,7 @@ public class Constants {
             """;
 
     public static final String UPDATE_FITNESS = """
-            
+                        
             Выберите параметр для обновления:
             name - обновить имя устройства
             user - обновить профиль пользователя
@@ -43,7 +44,7 @@ public class Constants {
             """;
 
     public static final String PROCESS_FITNESS = """
-            
+                        
             Выберите действие:
             battery - изменить заряд устройства (отрицательное число - убавить заряд, положительное - прибавить)
             on - надеть устройство
@@ -58,7 +59,7 @@ public class Constants {
             """;
 
     public static final String PROCESS_MONITOR = """
-            
+                        
             Выберите действие:
             battery - изменить заряд устройства (отрицательное число - убавить заряд, положительное - прибавить)
             on - надеть устройство
@@ -73,7 +74,7 @@ public class Constants {
             """;
 
     public static final String PROCESS_WATCH = """
-            
+                        
             Выберите действие:
             battery - изменить заряд устройства (отрицательное число - убавить заряд, положительное - прибавить)
             on - надеть устройство

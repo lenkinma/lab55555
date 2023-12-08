@@ -1,7 +1,11 @@
 package maxim.lab5.model.pressure;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import maxim.lab5.model.parent.Device;
+import maxim.lab5.model.parent.UserProfile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +16,7 @@ import static maxim.lab5.util.Constants.formatter;
 import static maxim.lab5.util.Constants.formatterAsString;
 
 
+@JsonTypeName("PressureMonitor")
 public class PressureMonitor extends Device {
 
     private Integer lastSystolicPressure;
@@ -19,6 +24,27 @@ public class PressureMonitor extends Device {
     private LocalDateTime lastMeasurementTime;
     private List<String> pressureData = new ArrayList<>();
     private boolean isAutomaticMeasurementMode = false; // по умолчанию "автоматический" режим измерения выключен
+
+    public PressureMonitor() {
+        super();
+    }
+
+    @JsonCreator
+    public PressureMonitor(
+            @JsonProperty("name") String name, @JsonProperty("batteryLevel") Integer batteryLevel,
+            @JsonProperty("serialNumber") String serialNumber, @JsonProperty("isPutOn") Boolean isPutOn,
+            @JsonProperty("profile") UserProfile profile, @JsonProperty("pulse") List<Integer> pulse,
+            @JsonProperty("lastSystolicPressure") Integer lastSystolicPressure, @JsonProperty("lastDiastolicPressure") Integer lastDiastolicPressure,
+            @JsonProperty("lastMeasurementTime") LocalDateTime lastMeasurementTime, @JsonProperty("pressureData") List<String> pressureData,
+            @JsonProperty("automaticMeasurementMode") boolean isAutomaticMeasurementMode) {
+        super(name, batteryLevel, serialNumber, isPutOn, profile, pulse);
+        this.lastSystolicPressure = lastSystolicPressure;
+        this.lastDiastolicPressure = lastDiastolicPressure;
+        this.lastMeasurementTime = lastMeasurementTime;
+        this.pressureData = pressureData;
+        this.isAutomaticMeasurementMode = isAutomaticMeasurementMode;
+    }
+
 
     // добавление нового измерения давления
     public void newMeasure(Integer systolicPressure, Integer diastolicPressure) {
@@ -137,7 +163,7 @@ public class PressureMonitor extends Device {
         return "PressureMonitor{" +
                 "lastSystolicPressure=" + lastSystolicPressure +
                 ", lastDiastolicPressure=" + lastDiastolicPressure +
-                ", lastMeasurementTime=" + (lastMeasurementTime != null ? lastMeasurementTime.format(formatter) : "Нет данных")  +
+                ", lastMeasurementTime=" + (lastMeasurementTime != null ? lastMeasurementTime.format(formatter) : "Нет данных") +
                 ", pressureData=" + pressureData +
                 ", isAutomaticMeasurementMode=" + (isAutomaticMeasurementMode ? "Автоматический" : "Ручной") +
                 ", name='" + name + '\'' +

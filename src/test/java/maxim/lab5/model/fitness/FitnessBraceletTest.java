@@ -8,9 +8,6 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * @author Kirill Emelyanov
- */
 
 class FitnessBraceletTest {
 
@@ -27,18 +24,18 @@ class FitnessBraceletTest {
     @Test
     @DisplayName("Проверка на корректное изменение режима")
     void changeModeTest() {
-       bracelet.changeModeTo(FitnessMode.SKIING);
-       assertEquals("лыжи", bracelet.getMode().getName());
+        bracelet.changeModeTo(FitnessMode.SKIING);
+        assertEquals("лыжи", bracelet.getMode().getName());
     }
 
     @Test
     @DisplayName("Проверка на корректное изменение режима")
     void addStepsTest() {
-       assertEquals(1000L, bracelet.getSteps());
+        assertEquals(1000L, bracelet.getSteps());
 
-       bracelet.addSteps(2000L);
+        bracelet.addSteps(2000L);
 
-       assertEquals(3000L, bracelet.getSteps());
+        assertEquals(3000L, bracelet.getSteps());
     }
 
     @Test

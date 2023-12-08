@@ -12,6 +12,18 @@ public class UserProfile {
         return name;
     }
 
+    public Float getHeight() {
+        return height;
+    }
+
+    public Float getWeight() {
+        return weight;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

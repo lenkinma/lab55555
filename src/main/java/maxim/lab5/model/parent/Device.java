@@ -1,10 +1,22 @@
 package maxim.lab5.model.parent;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import maxim.lab5.model.fitness.FitnessBracelet;
+import maxim.lab5.model.pressure.PressureMonitor;
+import maxim.lab5.model.watch.Watch;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 // абстрактный класс родитель
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Watch.class, name = "Watch"),
+        @JsonSubTypes.Type(value = PressureMonitor.class, name = "PressureMonitor"),
+        @JsonSubTypes.Type(value = FitnessBracelet.class, name = "FitnessBracelet")
+})
 public abstract class Device {
 
     protected String name;
@@ -14,6 +26,17 @@ public abstract class Device {
     protected UserProfile profile;
     protected List<Integer> pulse = new ArrayList<>();
 
+    protected Device() {
+    }
+
+    protected Device(String name, Integer batteryLevel, String serialNumber, Boolean isPutOn, UserProfile profile, List<Integer> pulse) {
+        this.name = name;
+        this.batteryLevel = batteryLevel;
+        this.serialNumber = serialNumber;
+        this.isPutOn = isPutOn;
+        this.profile = profile;
+        this.pulse = pulse;
+    }
 
     // общая реализация для всех наследников
     public void putOn() {

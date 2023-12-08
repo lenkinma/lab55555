@@ -3,21 +3,14 @@ package maxim.lab5.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import maxim.lab5.model.parent.Device;
+import maxim.lab5.model.parent.DeviceWrapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 
-import static maxim.lab5.util.Constants.formatter;
-
-/**
- * @author Kirill Emelyanov
- */
 
 public class JsonHelper {
 
@@ -31,12 +24,26 @@ public class JsonHelper {
 
     public static void saveJSON(List<Device> devices) {
         try {
-            mapper.writeValue(new File("data.json"), devices);
+            DeviceWrapper wrapper = new DeviceWrapper(devices);
+            mapper.writeValue(new File("data.json"), wrapper);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public static List<Device> readJSON() {
+        return readFromJson();
+    }
+
+    public static List<Device> readFromJson() {
+        try {
+            DeviceWrapper devices = mapper.readValue(new File("data.json"), DeviceWrapper.class);
+            return devices.getDevices();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
 
 
 }

@@ -1,25 +1,49 @@
 package maxim.lab5.model.watch;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import maxim.lab5.model.parent.Device;
+import maxim.lab5.model.parent.UserProfile;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
+import java.util.List;
 import java.util.Locale;
 import java.util.OptionalDouble;
 
 import static maxim.lab5.util.Constants.formatter;
 import static maxim.lab5.util.Constants.formatterAsString;
 
+@JsonTypeName("Watch")
 public class Watch extends Device {
 
     private LocalDateTime timer;
     private ZoneId zoneId = ZoneId.systemDefault();
     private ZonedDateTime currentTime = ZonedDateTime.now();
+
+    public Watch() {
+        super();
+    }
+
+    @JsonCreator
+    public Watch(
+            @JsonProperty("name") String name, @JsonProperty("batteryLevel") Integer batteryLevel,
+            @JsonProperty("serialNumber") String serialNumber, @JsonProperty("isPutOn") Boolean isPutOn,
+            @JsonProperty("profile") UserProfile profile, @JsonProperty("pulse") List<Integer> pulse,
+            @JsonProperty("timer") LocalDateTime timer, @JsonProperty("zoneId") ZoneId zoneId,
+            @JsonProperty("currentTime") ZonedDateTime currentTime) {
+        super(name, batteryLevel, serialNumber, isPutOn, profile, pulse);
+        this.timer = timer;
+        this.zoneId = zoneId;
+        this.currentTime = currentTime;
+    }
+
 
     // получить текущее время с заданным часовым поясом
     public void showCurrentTimeWithOffset() {
@@ -121,7 +145,7 @@ public class Watch extends Device {
         this.currentTime = currentTime;
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = formatterAsString)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = formatterAsString + "Z")
     public ZonedDateTime getCurrentTime() {
         return currentTime.withZoneSameInstant(zoneId);
     }

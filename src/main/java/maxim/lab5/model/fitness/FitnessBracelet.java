@@ -1,10 +1,16 @@
 package maxim.lab5.model.fitness;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import maxim.lab5.model.parent.Device;
+import maxim.lab5.model.parent.UserProfile;
 
+import java.util.List;
 import java.util.OptionalDouble;
 
 
+@JsonTypeName("FitnessBracelet")
 public class FitnessBracelet extends Device {
 
     private FitnessMode mode;
@@ -13,6 +19,18 @@ public class FitnessBracelet extends Device {
 
     public FitnessBracelet() {
         super();
+    }
+
+    @JsonCreator
+    public FitnessBracelet(@JsonProperty("name") String name, @JsonProperty("batteryLevel") Integer batteryLevel,
+                           @JsonProperty("serialNumber") String serialNumber, @JsonProperty("isPutOn") Boolean isPutOn,
+                           @JsonProperty("profile") UserProfile profile, @JsonProperty("pulse") List<Integer> pulse,
+                           @JsonProperty("mode") FitnessMode mode, @JsonProperty("kcal") Double kcal,
+                           @JsonProperty("steps") Long steps) {
+        super(name, batteryLevel, serialNumber, isPutOn, profile, pulse);
+        this.mode = mode;
+        this.kcal = kcal;
+        this.steps = steps;
     }
 
     // функция для перерасчета сожженных калорий

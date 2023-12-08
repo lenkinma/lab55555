@@ -8,9 +8,6 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * @author Kirill Emelyanov
- */
 
 class PressureMonitorTest {
 
