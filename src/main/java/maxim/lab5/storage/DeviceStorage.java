@@ -66,19 +66,24 @@ public class DeviceStorage {
     //сохранение json
     public void saveJSON() {
         JsonHelper.saveJSON(devices);
+        log.info("Данные об устройствах записаны в json");
     }
 
     //считывание json
     public void loadJSON() {
         List<Device> jsonDevices = JsonHelper.readJSON();
         for (Device device : jsonDevices) {
-            if (isContains(device.getSerialNumber())) {
-                System.out.println("В текущем списке уже есть устройство с серийным номером " + device.getSerialNumber() + ". Пропуск...");
-                log.warn("Дубликат серийного номера: {}. Пропуск...", device.getSerialNumber());
+            String serial = device.getSerialNumber();
+            if (isContains(serial)) {
+                System.out.println("В текущем списке уже есть устройство с серийным номером " + serial + ". Пропуск...");
+                log.warn("Дубликат серийного номера: {}. Пропуск...", serial);
             } else {
+                System.out.println("Устройство " +
+                        device.getName() + "(серийный номер " + serial + ") добавлено.");
                 devices.add(device);
             }
         }
+        log.info("Данные об устройствах считаны из json");
     }
 
     private boolean isContains(String serial) {
